@@ -36,11 +36,13 @@ public class RobotMap {
 		 driveSpeedController1 = new Talon(1);
 		 LiveWindow.addActuator("Drive", "Speed Controller 1", (Talon) driveSpeedController1);
 		 
+		 robotDrive = new RobotDrive(driveSpeedController0, driveSpeedController1);
+		 
 		 robotDrive.setSafetyEnabled(false);
 		 robotDrive.setExpiration(0.1);
 		 robotDrive.setSensitivity(0.5);
 		 robotDrive.setMaxOutput(1.0);
-		 robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		 //robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 	 
 	 }
 }

@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DriveSubsystem driveSubsystem;
-
+    public static RobotMap robotMap;
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	RobotMap.init();
 		oi = new OI();
 		driveSubsystem = new DriveSubsystem();
 		
