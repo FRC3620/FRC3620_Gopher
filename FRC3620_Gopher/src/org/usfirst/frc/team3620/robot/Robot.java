@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3620.robot;
 
 import org.usfirst.frc.team3620.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team3620.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,6 +23,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DriveSubsystem driveSubsystem;
+	public static ShooterSubsystem shooterSubsystem;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
 		driveSubsystem = new DriveSubsystem();
+		shooterSubsystem = new ShooterSubsystem();
 		
         chooser = new SendableChooser();
         

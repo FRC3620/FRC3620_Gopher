@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
     
-	SpeedController speedController1 = RobotMap.driveSpeedController1;
-	SpeedController speedController0 = RobotMap.driveSpeedController1;
+	
 	
 	RobotDrive robotDrive = RobotMap.robotDrive;
     // Put methods for controlling this subsystem
