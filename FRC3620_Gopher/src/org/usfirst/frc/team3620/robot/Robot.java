@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
+	
 	public static DriveSubsystem driveSubsystem;
 	public static ShooterSubsystem shooterSubsystem;
 
@@ -33,7 +34,9 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	RobotMap.init();
+    	
 		oi = new OI();
+		
 		driveSubsystem = new DriveSubsystem();
 		shooterSubsystem = new ShooterSubsystem();
 		
@@ -48,12 +51,14 @@ public class Robot extends IterativeRobot {
      * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
      */
-    public void disabledInit(){
-
+    public void disabledInit() {
+    	
     }
 	
 	public void disabledPeriodic() {
+		allStartPeriodic();
 		Scheduler.getInstance().run();
+		allEndPeriodic();
 	}
 
 	/**
@@ -86,10 +91,14 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
+	@Override
     public void autonomousPeriodic() {
+		allStartPeriodic();
         Scheduler.getInstance().run();
+        allEndPeriodic();
     }
 
+	@Override
     public void teleopInit() {
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
@@ -101,14 +110,34 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
+	@Override
     public void teleopPeriodic() {
+    	allStartPeriodic();
         Scheduler.getInstance().run();
+        allEndPeriodic();
     }
     
-    /**
+	@Override
+	public void testInit() {
+		
+	}
+
+	/**
      * This function is called periodically during test mode
      */
+	@Override
     public void testPeriodic() {
+    	allStartPeriodic();
         LiveWindow.run();
+        allEndPeriodic();
     }
+    
+    void allStartPeriodic() {
+    	
+    }
+
+    void allEndPeriodic() {
+    	
+    }
+
 }

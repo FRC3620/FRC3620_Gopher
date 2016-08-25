@@ -1,12 +1,10 @@
 package org.usfirst.frc.team3620.robot.subsystems;
 
-
 import org.usfirst.frc.team3620.robot.*;
 import org.usfirst.frc.team3620.robot.commands.DriveCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**

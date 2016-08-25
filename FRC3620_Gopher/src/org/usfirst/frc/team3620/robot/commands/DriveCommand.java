@@ -1,12 +1,6 @@
 package org.usfirst.frc.team3620.robot.commands;
 
-
-
 import org.usfirst.frc.team3620.robot.Robot;
-import org.usfirst.frc.team3620.robot.RobotMap;
-import org.usfirst.frc.team3620.robot.subsystems.DriveSubsystem;
-
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
