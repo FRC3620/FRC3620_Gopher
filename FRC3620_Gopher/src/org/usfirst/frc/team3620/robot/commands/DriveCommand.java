@@ -3,6 +3,7 @@ package org.usfirst.frc.team3620.robot.commands;
 
 
 import org.usfirst.frc.team3620.robot.Robot;
+import org.usfirst.frc.team3620.robot.RobotMap;
 import org.usfirst.frc.team3620.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -26,9 +27,8 @@ public class DriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-    	Robot.driveSubsystem.driveControl(Robot.oi.driverJoystick.getRawAxis(1), Robot.oi.driverJoystick.getRawAxis(0));
-    }
+    	Robot.driveSubsystem.driveControl(Robot.oi.driverJoystick);
+  	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

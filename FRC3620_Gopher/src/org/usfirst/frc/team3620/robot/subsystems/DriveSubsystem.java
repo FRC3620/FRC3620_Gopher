@@ -4,7 +4,7 @@ package org.usfirst.frc.team3620.robot.subsystems;
 import org.usfirst.frc.team3620.robot.*;
 import org.usfirst.frc.team3620.robot.commands.DriveCommand;
 
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,12 +13,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveSubsystem extends Subsystem {
-    
-	
-	
 	RobotDrive robotDrive = RobotMap.robotDrive;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	
+	public void driveControl (Joystick joystick) {
+		robotDrive.arcadeDrive(joystick);
+	}
 
 	public void driveControl(double move, double rotate){
 		if(Math.abs(move) <= .2){
