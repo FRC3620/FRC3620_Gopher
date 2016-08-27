@@ -51,8 +51,13 @@ public class RobotMap {
 		 
 		 // TODO - what do we need to do to get these on the dashboard?
 		 fillValve1 = new DoubleSolenoid(0, 1);
+		 LiveWindow.addActuator("ShooterSubsystem", "FillValve1", fillValve1);
+		 
 		 shotValve1 = new DoubleSolenoid(2, 3);
+		 LiveWindow.addActuator("ShooterSubsystem", "ShotValve1", shotValve1);
+		 
 		 pressureSensor1 = new AnalogInput(0);
+		 LiveWindow.addSensor("ShooterSubsystem", "PressureSensor1", pressureSensor1);
 		 
 		 System.out.println("done with init" +  pressureSensor1);
 	 
