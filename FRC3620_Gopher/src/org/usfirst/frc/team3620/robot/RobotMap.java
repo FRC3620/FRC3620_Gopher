@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -25,6 +26,10 @@ public class RobotMap {
 	public static SpeedController driveSpeedController0;
 	public static SpeedController driveSpeedController1;
 	
+	public static DoubleSolenoid  fillValve1;
+	public static DoubleSolenoid  shotValve1;
+	public static AnalogInput pressureSensor1;
+	
 	public static RobotDrive robotDrive;
 	 
 	
@@ -43,6 +48,13 @@ public class RobotMap {
 		 robotDrive.setSensitivity(0.5);
 		 robotDrive.setMaxOutput(1.0);
 		 //robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		 
+		 // TODO - what do we need to do to get these on the dashboard?
+		 fillValve1 = new DoubleSolenoid(0, 1);
+		 shotValve1 = new DoubleSolenoid(2, 3);
+		 pressureSensor1 = new AnalogInput(0);
+		 
+		 System.out.println("done with init" +  pressureSensor1);
 	 
 	 }
 }

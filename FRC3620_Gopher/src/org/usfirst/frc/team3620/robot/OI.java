@@ -1,6 +1,10 @@
 package org.usfirst.frc.team3620.robot;
 
+import org.usfirst.frc.team3620.robot.commands.RequestFillCommand;
+import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -10,6 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
 	
 	public Joystick driverJoystick;
+	
+	public JoystickButton requestFillButton, requestShotButton;
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -41,5 +47,11 @@ public class OI {
 
 	public OI(){
 		driverJoystick = new Joystick(0);
+		
+		requestFillButton = new JoystickButton(driverJoystick, 2);
+        requestFillButton.whenPressed(new RequestFillCommand());
+        
+        requestShotButton = new JoystickButton(driverJoystick, 1);
+        requestShotButton.whenPressed(new RequestShotCommand());
 	}
 }

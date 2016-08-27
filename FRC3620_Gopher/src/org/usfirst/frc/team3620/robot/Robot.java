@@ -44,6 +44,8 @@ public class Robot extends IterativeRobot {
         
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
+        shooterSubsystem.startup();
     }
 	
 	/**
@@ -133,7 +135,7 @@ public class Robot extends IterativeRobot {
     }
     
     void allStartPeriodic() {
-    	
+    	shooterSubsystem.makeTheBarrelsWork();
     }
 
     void allEndPeriodic() {

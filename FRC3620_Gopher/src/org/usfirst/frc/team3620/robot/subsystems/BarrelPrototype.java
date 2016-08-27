@@ -1,16 +1,70 @@
 
 package org.usfirst.frc.team3620.robot.subsystems;
 
+import org.usfirst.frc.team3620.robot.RobotMap;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 public class BarrelPrototype {
-	boolean fillRequested(int buttonNumber){
+	
+	DoubleSolenoid fillValve;
+	DoubleSolenoid shotValve;
+	AnalogInput pressureSensor;
+	
+	boolean fillRequested = false;
+	boolean shotRequested = false;
+	
+	BarrelState idleState = new IdleState();
+	BarrelState waitFillState = new WaitFillState();
+	BarrelState fillingState = new FillingState();
+	BarrelState waitFireState = new WaitFireState();
+	BarrelState firingState = new FiringState();
+	
+	BarrelState currentBarrelState;
+	
+	public void startup() {
+		currentBarrelState = idleState;
+		currentBarrelState.enter();
+	}
+	
+	public void makeTheBarrelWork() {
+		BarrelState newState = currentBarrelState.running();
+		if (newState != null && newState != currentBarrelState) {
+			System.out.println("moving to state " + newState + ", from " + currentBarrelState);;
+			currentBarrelState.exit();
+			newState.enter();
+			currentBarrelState = newState;
+		}
+	}
+	
+	public BarrelPrototype (DoubleSolenoid _fillValve, DoubleSolenoid _shotValve, AnalogInput _pressureSensor) {
+		super();
+		this.fillValve = _fillValve;
+		this.shotValve = _shotValve;
+		this.pressureSensor = _pressureSensor;
+	}
+	
+	public void requestFill() {
+		fillRequested = true;
+	}
+	
+	public void requestShot() {
+		shotRequested = true;
+	}
+	/*
 		return false;
-	} // Look at Driver Station for button number
-	boolean fireRequested(int buttonNumber){
+	} // Look at Driver Station for button numbers
+	boolean fireRequested(int buttonNumber2){
 		return false;
 	}
-	boolean isFilling(){
+	
+	
+	boolean isFilling(BarrelPrototype barrel){
+		
 		return false;
 	}
+	*/
+	
 	abstract class BarrelState {
 		void enter () { 
 		}
@@ -26,10 +80,16 @@ public class BarrelPrototype {
 	 */
 	
 	class IdleState extends BarrelState {
+		
+		void enter() {
+			fillRequested = false;
+		}
 
 		@Override
 		BarrelState running() {
-			// TODO Auto-generated method stub
+			if (fillRequested) {
+				 return waitFillState;
+			} 
 			return null;
 		}
 
@@ -50,8 +110,7 @@ public class BarrelPrototype {
 		
 		@Override
 		BarrelState running() {
-			// TODO Auto-generated method stub
-			return null;
+			return fillingState;
 		}
 		
 		@Override
@@ -65,21 +124,29 @@ public class BarrelPrototype {
 	 */
 	
 class FillingState extends BarrelState {
+	Timer timer = new Timer();
 		
 		@Override
 		void enter(){
-			
+			fillValve.set(Value.kForward);
+			timer.reset();
+			timer.start();
 		}
 		
 		@Override
 		BarrelState running() {
-			// TODO Auto-generated method stub
+			if (timer.hasPeriodPassed(3.0)) {
+				return waitFireState;
+			}
+			if (pressureSensor.getVoltage() > 2.5) {
+				return waitFireState;
+			}
 			return null;
 		}
 		
 		@Override
 		void exit(){
-			
+			fillValve.set(Value.kOff);
 		}
 	}
 
@@ -90,20 +157,16 @@ class FillingState extends BarrelState {
 
 class WaitFireState extends BarrelState {
 	
-	@Override
-	void enter(){
-		
+	void enter() {
+		shotRequested = false;
 	}
-	
+
 	@Override
 	BarrelState running() {
-		// TODO Auto-generated method stub
+		if (shotRequested) {
+			 return firingState;
+		} 
 		return null;
-	}
-	
-	@Override
-	void exit(){
-		
 	}
 }
 
@@ -113,24 +176,30 @@ class WaitFireState extends BarrelState {
  */
 
 class FiringState extends BarrelState {
+	Timer timer = new Timer();
 	
 	@Override
 	void enter(){
-		
+		shotValve.set(Value.kForward);
+		timer.reset();
+		timer.start();
 	}
 	
 	@Override
 	BarrelState running() {
-		// TODO Auto-generated method stub
+		if (timer.hasPeriodPassed(0.5)) {
+			return idleState;
+		}
 		return null;
 	}
 	
 	@Override
 	void exit(){
-		
+		shotValve.set(Value.kOff);
 	}
 }
 
 
 
 }
+
