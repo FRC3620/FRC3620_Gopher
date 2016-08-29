@@ -13,6 +13,7 @@ public class BarrelPrototype {
 	
 	boolean fillRequested = false;
 	boolean shotRequested = false;
+	boolean filling = false;
 	
 	BarrelState idleState = new IdleState();
 	BarrelState waitFillState = new WaitFillState();
@@ -128,6 +129,7 @@ class FillingState extends BarrelState {
 		
 		@Override
 		void enter(){
+			filling = true;
 			fillValve.set(Value.kForward);
 			timer.reset();
 			timer.start();
@@ -147,6 +149,7 @@ class FillingState extends BarrelState {
 		@Override
 		void exit(){
 			fillValve.set(Value.kOff);
+			filling = false;
 		}
 	}
 
