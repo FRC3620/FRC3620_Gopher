@@ -1,6 +1,9 @@
 package org.usfirst.frc.team3620.robot.commands;
 
+import org.slf4j.Logger;
 import org.usfirst.frc.team3620.robot.Robot;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RequestFillCommand extends Command {
+    Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
+    RumbleCommand rumbleCommand = new RumbleCommand();
 
     public RequestFillCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -16,12 +21,14 @@ public class RequestFillCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("fillCommand run");
+    	logger.info ("fill requested");
+        if (! Robot.shooterSubsystem.requestFill()) {
+            rumbleCommand.start("no one available to fill");
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterSubsystem.requestFill();
     }
 
     // Make this return true when this Command no longer needs to run execute()

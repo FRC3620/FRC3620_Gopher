@@ -1,8 +1,10 @@
-
 package org.usfirst.frc.team3620.robot;
 
-import org.usfirst.frc.team3620.robot.subsystems.DriveSubsystem;
-import org.usfirst.frc.team3620.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team3620.robot.subsystems.*;
+
+import org.slf4j.Logger;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,24 +24,38 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	
+	public static LiftSubsystem liftSubsystem;
 	public static DriveSubsystem driveSubsystem;
-	public static ShooterSubsystem shooterSubsystem;
+    public static ShooterSubsystem shooterSubsystem;
+    public static RumblerSubsystem rumblerSubsystem;
 
     Command autonomousCommand;
     SendableChooser chooser;
+    
+    // custom FRC 3620 stuff
+    static RobotMode currentRobotMode = RobotMode.INIT, previousRobotMode; 
+    static Logger logger;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+        logger = EventLogging.getLogger(Robot.class, Level.INFO);
+        
     	RobotMap.init();
     	
-		oi = new OI();
-		
 		driveSubsystem = new DriveSubsystem();
 		shooterSubsystem = new ShooterSubsystem();
-		
+		rumblerSubsystem = new RumblerSubsystem();
+		liftSubsystem = new LiftSubsystem();
+
+        // OI must be constructed after subsystems. If the OI creates Commands
+        // (which it very likely will), subsystems are not guaranteed to be
+        // constructed yet. Thus, their requires() statements may grab null
+        // pointers. Bad news. Don't move it.
+        oi = new OI();
+        
         chooser = new SendableChooser();
         
 //        chooser.addObject("My Auto", new MyAutoCommand());
@@ -54,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit() {
-    	
+        allInit(RobotMode.DISABLED);
     }
 	
 	public void disabledPeriodic() {
@@ -73,6 +89,8 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+        allInit(RobotMode.AUTONOMOUS);
+        
         autonomousCommand = (Command) chooser.getSelected();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -102,6 +120,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
     public void teleopInit() {
+	    allInit(RobotMode.TELEOP);
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
@@ -121,7 +140,7 @@ public class Robot extends IterativeRobot {
     
 	@Override
 	public void testInit() {
-		
+	    allInit(RobotMode.TEST);
 	}
 
 	/**
@@ -141,5 +160,23 @@ public class Robot extends IterativeRobot {
     void allEndPeriodic() {
     	
     }
+    
+    /*
+     * this routine gets called whenever we change modes
+     */
+    void allInit(RobotMode newMode) {
+        logger.info("Switching from {} to {}", currentRobotMode, newMode);
+        //logger.info("isFMS {}, position {}{}", driverStation.isFMSAttached(), driverStation.getAlliance(), driverStation.getLocation());
+        
+        previousRobotMode = currentRobotMode;
+        currentRobotMode = newMode;
+
+        // if any subsystems need to know about mode changes, let
+        // them know here.
+
+        Robot.shooterSubsystem.allInit(newMode);
+        Robot.driveSubsystem.allInit(newMode);
+    }
+    
 
 }

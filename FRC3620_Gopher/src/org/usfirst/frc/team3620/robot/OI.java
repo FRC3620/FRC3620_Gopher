@@ -1,10 +1,13 @@
 package org.usfirst.frc.team3620.robot;
 
+import org.usfirst.frc.team3620.robot.commands.LiftDownCommand;
+import org.usfirst.frc.team3620.robot.commands.LiftUpCommand;
 import org.usfirst.frc.team3620.robot.commands.RequestFillCommand;
 import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -53,5 +56,9 @@ public class OI {
         
         requestShotButton = new JoystickButton(driverJoystick, 1);
         requestShotButton.whenPressed(new RequestShotCommand());
+        
+        SmartDashboard.putData("LiftDownCommand", new LiftDownCommand());
+        SmartDashboard.putData("LiftUpCommand", new LiftUpCommand());
+
 	}
 }

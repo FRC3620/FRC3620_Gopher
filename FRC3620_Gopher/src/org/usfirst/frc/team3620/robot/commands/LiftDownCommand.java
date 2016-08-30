@@ -1,30 +1,22 @@
 package org.usfirst.frc.team3620.robot.commands;
 
-import org.slf4j.Logger;
 import org.usfirst.frc.team3620.robot.Robot;
-import org.usfirst.frc3620.logger.EventLogging;
-import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RequestShotCommand extends Command {
-    Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
-    RumbleCommand rumbleCommand = new RumbleCommand();
+public class LiftDownCommand extends Command {
 
-    public RequestShotCommand() {
+    public LiftDownCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        logger.info ("shot requested");
-        if (! Robot.shooterSubsystem.requestShot()) {
-            rumbleCommand.start("no one available to shoot");
-        }
+    	Robot.liftSubsystem.bumpLiftDown();
     }
 
     // Called repeatedly when this Command is scheduled to run
