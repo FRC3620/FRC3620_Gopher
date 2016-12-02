@@ -3,8 +3,8 @@ package org.usfirst.frc.team3620.robot.subsystems;
 import org.usfirst.frc.team3620.robot.RobotMap;
 import org.usfirst.frc.team3620.robot.RobotMode;
 
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.old.Compressor;
 
 /**
  *
@@ -95,6 +95,11 @@ public class ShooterSubsystem extends Subsystem {
             RobotMap.compressor.stop();
         } else {
             RobotMap.compressor.start();
+        }
+        if (newRobotMode == RobotMode.TELEOP || newRobotMode == RobotMode.AUTONOMOUS) {
+            RobotMap.valveMaster.set(Value.kOn);
+        } else {
+            RobotMap.valveMaster.set(Value.kOff);
         }
     }
 

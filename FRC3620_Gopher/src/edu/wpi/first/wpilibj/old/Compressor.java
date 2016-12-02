@@ -149,7 +149,7 @@ public class Compressor extends SensorBase implements LiveWindowSendable{
      * is stopped by default and won't operate until starting it.
      */
     public void start() {
-        logger.info("starting compressor loop");
+        if (!m_enabled) logger.info("starting compressor loop");
         m_enabled = true;
     }
 
@@ -158,7 +158,7 @@ public class Compressor extends SensorBase implements LiveWindowSendable{
      * This method will stop the compressor from turning on.
      */
     public void stop() {
-        logger.info("stopping compressor loop");
+        if (m_enabled) logger.info("stopping compressor loop");
         m_enabled = false;
     }
 

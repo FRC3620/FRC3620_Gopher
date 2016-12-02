@@ -85,7 +85,7 @@ public class RobotMap {
         pressureSensor3 = new AnalogInput(3);
         LiveWindow.addSensor("shooterSubsystem", "PressureSensor3", pressureSensor3);
 
-        valveMaster = new Relay(1);
+        valveMaster = new Relay(1, Direction.kForward);
         LiveWindow.addActuator("shooterSubsystem", "valveMaster", valveMaster);
 
         fillValve1 = new DigitalOutput(1);

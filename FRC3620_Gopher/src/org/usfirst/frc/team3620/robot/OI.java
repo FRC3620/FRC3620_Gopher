@@ -2,6 +2,7 @@ package org.usfirst.frc.team3620.robot;
 
 import org.usfirst.frc.team3620.robot.commands.LiftDownCommand;
 import org.usfirst.frc.team3620.robot.commands.LiftUpCommand;
+import org.usfirst.frc.team3620.robot.commands.LogCommand;
 import org.usfirst.frc.team3620.robot.commands.RequestFillCommand;
 import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
 
@@ -59,6 +60,10 @@ public class OI {
         
         SmartDashboard.putData("LiftDownCommand", new LiftDownCommand());
         SmartDashboard.putData("LiftUpCommand", new LiftUpCommand());
+        
+        DPad dpad = new DPad(driverJoystick);
+        dpad.getDown().whileHeld(new LogCommand("dpad down"));
+        dpad.getUp().whileHeld(new LogCommand("dpad up"));
 
 	}
 }
