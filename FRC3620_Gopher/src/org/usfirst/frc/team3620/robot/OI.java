@@ -2,6 +2,7 @@ package org.usfirst.frc.team3620.robot;
 
 import org.usfirst.frc.team3620.robot.commands.LiftDownCommand;
 import org.usfirst.frc.team3620.robot.commands.LiftUpCommand;
+import org.usfirst.frc.team3620.robot.commands.RapidFire;
 import org.usfirst.frc.team3620.robot.commands.RequestFillCommand;
 import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
 
@@ -59,6 +60,7 @@ public class OI {
         
         SmartDashboard.putData("LiftDownCommand", new LiftDownCommand());
         SmartDashboard.putData("LiftUpCommand", new LiftUpCommand());
+        SmartDashboard.putData("RapidFireCommand", new RapidFire());
         
         DPad dpad = new DPad(driverJoystick);
         dpad.getDown().whenPressed(new LiftDownCommand());

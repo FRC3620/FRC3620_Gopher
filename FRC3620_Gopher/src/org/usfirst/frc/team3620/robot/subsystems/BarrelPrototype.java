@@ -36,6 +36,7 @@ public class BarrelPrototype {
     BarrelState seatingState = new SeatingState();
     BarrelState fillingState = new FillingState();
     BarrelState waitFireState = new WaitFireState();
+    BarrelState preFireState = new PreFireState();
     BarrelState firingState = new FiringState();
 
     BarrelState currentBarrelState;
@@ -275,7 +276,7 @@ public class BarrelPrototype {
         @Override
         BarrelState running() {
             if (shotRequested) {
-                return firingState;
+                return preFireState;
             }
             return null;
         }
@@ -289,6 +290,35 @@ public class BarrelPrototype {
             closeValve(shotValve);
         }
     }
+    
+    class PreFireState extends BarrelState {
+        Timer timer = new Timer();
+
+        @Override
+        void enter() {
+            closeValve(supplyValve);
+            closeValve(tankValve);
+            closeValve(shotValve);
+            
+            timer.reset();
+            timer.start();
+        }
+
+        @Override
+        BarrelState running() {
+            if (timer.hasPeriodPassed(0.5)) {
+                return firingState;
+            }
+            return null;
+        }
+
+        @Override
+        void exit() {
+            closeValve(supplyValve);
+            closeValve(tankValve);
+            closeValve(shotValve);
+        }
+    }
 
     /*
      * The state 'Firing', is the last state to be run. Entry condition is exit
@@ -296,7 +326,6 @@ public class BarrelPrototype {
      * specified Barrel Exit condition is automatic exit to the 'Idle' state
      * once firing is complete.
      */
-
     class FiringState extends BarrelState {
         Timer timer = new Timer();
 
