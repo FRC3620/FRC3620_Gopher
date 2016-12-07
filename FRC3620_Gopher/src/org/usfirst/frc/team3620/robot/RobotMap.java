@@ -73,8 +73,10 @@ public class RobotMap {
         compressorSwitch = new DigitalInput(0);
         LiveWindow.addSensor("shooterSubsystem", "compressorSwitch", compressorSwitch);
 
+        /*
         compressor = new edu.wpi.first.wpilibj.old.Compressor(compressorSwitch, compressorRelay);
         LiveWindow.addSensor("shooterSubsystem", "compressor", compressor);
+        */
 
         pressureSensor1 = new AnalogInput(1);
         LiveWindow.addSensor("shooterSubsystem", "PressureSensor1", pressureSensor1);

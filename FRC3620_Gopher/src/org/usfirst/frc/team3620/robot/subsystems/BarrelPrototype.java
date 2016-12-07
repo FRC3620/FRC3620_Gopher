@@ -7,6 +7,7 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BarrelPrototype {
 
@@ -42,7 +43,7 @@ public class BarrelPrototype {
     public void startup() {
         currentBarrelState = idleState;
         logger.info("{}: moving to state {}", barrelName, currentBarrelState.getStateName());
-        currentBarrelState.enter();
+        currentBarrelState.logAndEnter();
     }
 
     public void makeTheBarrelWork() {
@@ -50,7 +51,7 @@ public class BarrelPrototype {
         if (newState != null && newState != currentBarrelState) {
             logger.info("{}: moving to state {} from {}", barrelName, newState.getStateName(), currentBarrelState.getStateName());
             currentBarrelState.exit();
-            newState.enter();
+            newState.logAndEnter();
             currentBarrelState = newState;
         }
     }
@@ -80,6 +81,11 @@ public class BarrelPrototype {
     }
 
     abstract class BarrelState {
+        void logAndEnter() {
+            SmartDashboard.putString(barrelName + " status", getStateName());
+            enter();
+        }
+        
         void enter() {
         }
 
