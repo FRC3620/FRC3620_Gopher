@@ -49,7 +49,7 @@ public class RobotMap {
 
     public static void init() {
 
-        subsystem1CANTalon1 = new CANTalon(2);
+        subsystem1CANTalon1 = new CANTalon(1);
         LiveWindow.addActuator("Subsystem 1", "CAN Talon 1", subsystem1CANTalon1);
 
         driveSpeedController0 = new Talon(0);
