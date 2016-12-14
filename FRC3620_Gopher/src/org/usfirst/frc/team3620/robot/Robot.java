@@ -158,6 +158,7 @@ public class Robot extends IterativeRobot {
     }
 
     void allEndPeriodic() {
+    	SmartDashboard.putNumber("encoder", RobotMap.subsystem1CANTalon1.getPosition());
     	
     }
     

@@ -12,16 +12,30 @@
 package org.usfirst.frc.team3620.robot.subsystems;
 
 import org.slf4j.Logger;
+import org.usfirst.frc.team3620.robot.RobotMap;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
 public class LiftSubsystem extends Subsystem {
-    Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
+	CANTalon liftCANTalon=RobotMap.subsystem1CANTalon1;
+    public LiftSubsystem() {
+		super();
+		liftCANTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		liftCANTalon.changeControlMode(TalonControlMode.Position);
+		liftCANTalon.setPID(0.4, 0, 0);
+		liftCANTalon.setPosition(0);
+		liftCANTalon.setSetpoint(0.0);	
+	}
+
+	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
 
     // Put methods for controlling this subsystem
@@ -40,6 +54,7 @@ public class LiftSubsystem extends Subsystem {
     	if (currentPosition != N_POSITIONS) {
     	currentPosition = currentPosition+1;
     	logger.info("new lift setpoint = {}", currentPosition);
+    	liftCANTalon.setSetpoint(currentPosition);
     	}
     	else logger.info("Cannot move further up");
     }
@@ -48,6 +63,7 @@ public class LiftSubsystem extends Subsystem {
     	if (currentPosition != 0) {
     		currentPosition = currentPosition-1;
         	logger.info("new lift setpoint = {}", currentPosition);
+        	liftCANTalon.setSetpoint(currentPosition);
     	}
     	else logger.info("Cannot move further down");
     }
