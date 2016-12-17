@@ -31,11 +31,12 @@ public class LiftSubsystem extends Subsystem {
 	CANTalon liftCANTalon=RobotMap.subsystem1CANTalon1;
     public LiftSubsystem() {
 		super();
-		liftCANTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		liftCANTalon.changeControlMode(TalonControlMode.Position);
-		liftCANTalon.setPID(0.4, 0, 0);
-		liftCANTalon.setPosition(0);
-		liftCANTalon.setSetpoint(vals[0]);	
+//		liftCANTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+//		liftCANTalon.changeControlMode(TalonControlMode.Position);
+//		liftCANTalon.setPID(0.4, 0, 0);
+//		liftCANTalon.setPosition(0);
+//		liftCANTalon.setSetpoint(vals[0]);	
+		liftCANTalon.changeControlMode(TalonControlMode.PercentVbus);
 	}
 
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
@@ -53,7 +54,15 @@ public class LiftSubsystem extends Subsystem {
     
     int currentPosition = 0;
     
-    public void bumpLiftUp() {
+    public void manualLidUp() {
+    	liftCANTalon.set(-0.3);
+    }
+    
+    public void manualLidDown() {
+    	liftCANTalon.set(0.3);
+    }
+    
+    public void bumpLidUp() {
     	if (currentPosition != N_POSITIONS) {
     	currentPosition = currentPosition+1;
     	logger.info("new lift setpoint = {}", currentPosition);
@@ -62,13 +71,17 @@ public class LiftSubsystem extends Subsystem {
     	else logger.info("Cannot move further up");
     }
     
-    public void bumpLiftDown() {
+    public void bumpLidDown() {
     	if (currentPosition != 0) {
     		currentPosition = currentPosition-1;
         	logger.info("new lift setpoint = {}", currentPosition);
         	liftCANTalon.setSetpoint(vals[currentPosition]);
     	}
     	else logger.info("Cannot move further down");
+    }
+    
+    public void stopMotor() {
+    	liftCANTalon.stopMotor();
     }
     
 }

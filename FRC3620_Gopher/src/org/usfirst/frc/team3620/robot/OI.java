@@ -1,9 +1,12 @@
 package org.usfirst.frc.team3620.robot;
 
-import org.usfirst.frc.team3620.robot.commands.LiftDownCommand;
-import org.usfirst.frc.team3620.robot.commands.LiftUpCommand;
+import org.usfirst.frc.team3620.robot.commands.BumpLidDownCommand;
+import org.usfirst.frc.team3620.robot.commands.BumpLidUpCommand;
+import org.usfirst.frc.team3620.robot.commands.ManualLidDownCommand;
+import org.usfirst.frc.team3620.robot.commands.ManualLidUpCommand;
 import org.usfirst.frc.team3620.robot.commands.RapidFire;
-import org.usfirst.frc.team3620.robot.commands.RequestFillCommand;
+import org.usfirst.frc.team3620.robot.commands.RequestFillCommand0;
+import org.usfirst.frc.team3620.robot.commands.RequestFillCommand1;
 import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +22,7 @@ public class OI {
 	
 	public Joystick driverJoystick;
 	
-	public JoystickButton requestFillButton, requestShotButton;
+	public JoystickButton requestFill0Button, requestFill1Button;
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -52,19 +55,23 @@ public class OI {
 	public OI(){
 		driverJoystick = new Joystick(0);
 		
-		requestFillButton = new JoystickButton(driverJoystick, 2);
-        requestFillButton.whenPressed(new RequestFillCommand());
+		requestFill0Button = new JoystickButton(driverJoystick, 1);
+        requestFill0Button.whenPressed(new RequestFillCommand0());
+        requestFill1Button = new JoystickButton(driverJoystick, 2);
+        requestFill1Button.whenPressed(new RequestFillCommand1());
         
-        requestShotButton = new JoystickButton(driverJoystick, 1);
-        requestShotButton.whenPressed(new RequestShotCommand());
+//        requestShotButton = new JoystickButton(driverJoystick, 1);
+//        requestShotButton.whenPressed(new RequestShotCommand());
         
-        SmartDashboard.putData("LiftDownCommand", new LiftDownCommand());
-        SmartDashboard.putData("LiftUpCommand", new LiftUpCommand());
+        SmartDashboard.putData("LiftDownCommand", new BumpLidDownCommand());
+        SmartDashboard.putData("LiftUpCommand", new BumpLidUpCommand());
         SmartDashboard.putData("RapidFireCommand", new RapidFire());
         
         DPad dpad = new DPad(driverJoystick);
-        dpad.getDown().whenPressed(new LiftDownCommand());
-        dpad.getUp().whenPressed(new LiftUpCommand());
+        //dpad.getDown().whenPressed(new BumpLidDownCommand());
+        //dpad.getUp().whenPressed(new BumpLidUpCommand());
+        dpad.getDown().whileHeld(new ManualLidDownCommand());
+        dpad.getUp().whileHeld(new ManualLidUpCommand());
 
 	}
 }

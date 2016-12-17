@@ -262,6 +262,7 @@ public class BarrelPrototype {
      */
 
     class WaitFireState extends BarrelState {
+    	Timer timer = new Timer();
         @Override
         void enter() {
             // keep the tank valve open so the piston does not move
@@ -271,11 +272,14 @@ public class BarrelPrototype {
 
             shotRequested = false;
             readyToShoot = true;
-}
+            
+            timer.reset();
+            timer.start();
+        }
 
         @Override
         BarrelState running() {
-            if (shotRequested) {
+            if (timer.hasPeriodPassed(0.5)) {
                 return preFireState;
             }
             return null;
