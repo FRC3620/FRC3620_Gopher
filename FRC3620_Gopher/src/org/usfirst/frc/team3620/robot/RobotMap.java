@@ -24,12 +24,13 @@ public class RobotMap {
 
     public static SpeedController driveSpeedController0;
     public static SpeedController driveSpeedController1;
-
+    
     public static RobotDrive robotDrive;
 
     public static Relay compressorRelay;
     public static DigitalInput compressorSwitch;
 
+    public static AnalogInput lidSensor;
     public static AnalogInput pressureSensor1;
     public static AnalogInput pressureSensor2;
     public static AnalogInput pressureSensor3;
@@ -77,6 +78,9 @@ public class RobotMap {
         compressor = new edu.wpi.first.wpilibj.old.Compressor(compressorSwitch, compressorRelay);
         LiveWindow.addSensor("shooterSubsystem", "compressor", compressor);
         */
+
+        lidSensor = new AnalogInput(0);
+        LiveWindow.addSensor("shooterSubsystem", "lidSensor", lidSensor);
 
         pressureSensor1 = new AnalogInput(1);
         LiveWindow.addSensor("shooterSubsystem", "PressureSensor1", pressureSensor1);

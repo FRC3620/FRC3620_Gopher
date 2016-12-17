@@ -55,11 +55,16 @@ public class LiftSubsystem extends Subsystem {
     int currentPosition = 0;
     
     public void manualLidUp() {
-    	liftCANTalon.set(-0.3);
+    	liftCANTalon.set(-0.8);
     }
     
     public void manualLidDown() {
-    	liftCANTalon.set(0.3);
+    	if(RobotMap.lidSensor.getVoltage() < 2) {
+    		liftCANTalon.set(0.6);
+    	}
+    	else {
+    		liftCANTalon.stopMotor();
+    	}
     }
     
     public void bumpLidUp() {
