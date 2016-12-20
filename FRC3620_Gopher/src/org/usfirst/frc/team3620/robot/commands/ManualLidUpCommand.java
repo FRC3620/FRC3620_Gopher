@@ -20,7 +20,7 @@ public class ManualLidUpCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.liftSubsystem.manualLidUp();
+    	Robot.lidSubsystem.manualLidUp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +36,6 @@ public class ManualLidUpCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.liftSubsystem.stopMotor();
+    	Robot.lidSubsystem.stopMotor();
     }
 }

@@ -46,8 +46,6 @@ public class RobotMap {
     public static DigitalOutput tankValve3;
     public static DigitalOutput shotValve3;
 
-    public static edu.wpi.first.wpilibj.old.Compressor compressor;
-
     public static void init() {
 
         subsystem1CANTalon1 = new CANTalon(1);
@@ -73,11 +71,6 @@ public class RobotMap {
 
         compressorSwitch = new DigitalInput(0);
         LiveWindow.addSensor("shooterSubsystem", "compressorSwitch", compressorSwitch);
-
-        /*
-        compressor = new edu.wpi.first.wpilibj.old.Compressor(compressorSwitch, compressorRelay);
-        LiveWindow.addSensor("shooterSubsystem", "compressor", compressor);
-        */
 
         lidSensor = new AnalogInput(0);
         LiveWindow.addSensor("shooterSubsystem", "lidSensor", lidSensor);

@@ -234,7 +234,7 @@ public class BarrelPrototype {
 
         @Override
         BarrelState running() {
-            if (timer.hasPeriodPassed(5.0)) {
+            if (timer.hasPeriodPassed(3.0)) {
                 return waitFireState;
             }
             /*
@@ -345,7 +345,7 @@ public class BarrelPrototype {
 
         @Override
         BarrelState running() {
-            if (timer.hasPeriodPassed(0.5)) {
+            if (timer.hasPeriodPassed(1.5)) {
                 return idleState;
             }
             return null;

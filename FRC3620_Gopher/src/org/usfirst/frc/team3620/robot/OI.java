@@ -1,13 +1,6 @@
 package org.usfirst.frc.team3620.robot;
 
-import org.usfirst.frc.team3620.robot.commands.BumpLidDownCommand;
-import org.usfirst.frc.team3620.robot.commands.BumpLidUpCommand;
-import org.usfirst.frc.team3620.robot.commands.ManualLidDownCommand;
-import org.usfirst.frc.team3620.robot.commands.ManualLidUpCommand;
-import org.usfirst.frc.team3620.robot.commands.RapidFire;
-import org.usfirst.frc.team3620.robot.commands.RequestFillCommand0;
-import org.usfirst.frc.team3620.robot.commands.RequestFillCommand1;
-import org.usfirst.frc.team3620.robot.commands.RequestShotCommand;
+import org.usfirst.frc.team3620.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

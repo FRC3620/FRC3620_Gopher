@@ -1,8 +1,12 @@
 package org.usfirst.frc.team3620.robot.subsystems;
 
+import org.slf4j.Logger;
 import org.usfirst.frc.team3620.robot.RobotMap;
 import org.usfirst.frc.team3620.robot.RobotMode;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
 
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -10,14 +14,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ShooterSubsystem extends Subsystem {
+    Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
-    public final int NUMBER_OF_BARRELS = 3;
+    public final int NUMBER_OF_BARRELS = 2;
 
     AirMaster fillMaster = new AirMaster();
     BarrelPrototype[] barrels = new BarrelPrototype[NUMBER_OF_BARRELS];
-    {
-        System.out.println("subsystem loaded");
-    }
 
     public ShooterSubsystem() {
         super();
@@ -29,7 +31,8 @@ public class ShooterSubsystem extends Subsystem {
         init();
     }
 
-    void init() {
+    @SuppressWarnings("unused")
+	void init() {
         barrels[0] = new BarrelPrototype(RobotMap.fillValve1, RobotMap.tankValve1,
                 RobotMap.shotValve1, RobotMap.pressureSensor1, fillMaster, "b1");
         if (NUMBER_OF_BARRELS > 1) {
@@ -53,12 +56,43 @@ public class ShooterSubsystem extends Subsystem {
         }
     }
 
-    public void makeTheBarrelsWork() {
+    public void allStartPeriodic(RobotMode currentMode) {
         for (int i = 0; i < NUMBER_OF_BARRELS; i++) {
             barrels[i].makeTheBarrelWork();
         }
+        if (currentMode == RobotMode.TELEOP || currentMode == RobotMode.AUTONOMOUS) {
+            setRelayValue(getCompressorSwitch() ? Relay.Value.kOn : Relay.Value.kOff);
+        } else if (currentMode == RobotMode.TEST){
+        	// let the test dashboard
+        } else {
+            setRelayValue(Relay.Value.kOff);
+        }
+    }
+    
+    boolean getCompressorSwitch() {
+    	return !RobotMap.compressorSwitch.get();
+    }
+    
+    Relay.Value lastValue = null;
+    public void setRelayValue(Relay.Value relayValue) {
+        if (lastValue != relayValue) {
+            logger.info("Turning compressor to {}", relayValue);
+            lastValue = relayValue;
+        }
+        RobotMap.compressorRelay.set(relayValue);
     }
 
+    public void allInit(RobotMode newRobotMode) {
+        for (int i = 0; i < NUMBER_OF_BARRELS; i++) {
+            barrels[i].allInit(newRobotMode);
+        }
+        if (newRobotMode == RobotMode.TELEOP || newRobotMode == RobotMode.AUTONOMOUS) {
+            RobotMap.valveMaster.set(Value.kOn);
+        } else {
+            RobotMap.valveMaster.set(Value.kOff);
+        }
+    }
+    
     public boolean requestFill() {
         boolean rv = false;
         for (int i = 0; i < NUMBER_OF_BARRELS; i++) {
@@ -82,24 +116,6 @@ public class ShooterSubsystem extends Subsystem {
         }
         return rv;
     }
-
-    public void allInit(RobotMode newRobotMode) {
-        for (int i = 0; i < NUMBER_OF_BARRELS; i++) {
-            barrels[i].allInit(newRobotMode);
-        }
-        if (RobotMap.compressor != null) {
-            if (newRobotMode == RobotMode.TEST) {
-                RobotMap.compressor.stop();
-            } else {
-                RobotMap.compressor.start();
-            }
-        }
-        if (newRobotMode == RobotMode.TELEOP || newRobotMode == RobotMode.AUTONOMOUS) {
-            RobotMap.valveMaster.set(Value.kOn);
-        } else {
-            RobotMap.valveMaster.set(Value.kOff);
-        }
-    }
     
     public boolean requestFill(int i) {
         if (i <= NUMBER_OF_BARRELS && barrels[i].readyToFill) {
@@ -116,5 +132,4 @@ public class ShooterSubsystem extends Subsystem {
         }
         return false;
     }
-
 }

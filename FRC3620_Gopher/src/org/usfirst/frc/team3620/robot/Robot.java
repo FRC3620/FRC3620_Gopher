@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	
-	public static LiftSubsystem liftSubsystem;
+	public static LidSubsystem lidSubsystem;
 	public static DriveSubsystem driveSubsystem;
     public static ShooterSubsystem shooterSubsystem;
     public static RumblerSubsystem rumblerSubsystem;
@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 		driveSubsystem = new DriveSubsystem();
 		shooterSubsystem = new ShooterSubsystem();
 		rumblerSubsystem = new RumblerSubsystem();
-		liftSubsystem = new LiftSubsystem();
+		lidSubsystem = new LidSubsystem();
 
         // OI must be constructed after subsystems. If the OI creates Commands
         // (which it very likely will), subsystems are not guaranteed to be
@@ -154,12 +154,13 @@ public class Robot extends IterativeRobot {
     }
     
     void allStartPeriodic() {
-    	shooterSubsystem.makeTheBarrelsWork();
+    	shooterSubsystem.allStartPeriodic(currentRobotMode);
     }
 
     void allEndPeriodic() {
     	SmartDashboard.putNumber("encoder", RobotMap.subsystem1CANTalon1.getPosition());
-    	
+    	SmartDashboard.putNumber("p1", RobotMap.pressureSensor1.getVoltage());
+    	SmartDashboard.putNumber("p2", RobotMap.pressureSensor2.getVoltage());
     }
     
     /*

@@ -16,7 +16,7 @@ public class BumpLidDownCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.liftSubsystem.bumpLidDown();
+    	Robot.lidSubsystem.bumpLidDown();
     }
 
     // Called repeatedly when this Command is scheduled to run
