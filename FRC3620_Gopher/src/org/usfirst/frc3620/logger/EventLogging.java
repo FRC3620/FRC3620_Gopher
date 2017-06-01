@@ -12,8 +12,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
-import edu.wpi.first.wpilibj.communication.HALControlWord;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.hal.HAL;
 
 public class EventLogging {
 
@@ -68,7 +68,20 @@ public class EventLogging {
         org.slf4j.Logger rv = org.slf4j.LoggerFactory.getLogger(sClazz);
         return rv;
     }
+    
+    /**
+     * Log command starts and stops
+     * 
+     * @param logger
+     * 			  logger to log to.
+     */
+    public static void commandMessage (org.slf4j.Logger logger) {
+  	  Throwable t = new Throwable();
+  	  StackTraceElement[] stackTraceElement = t.getStackTrace();
+  	  logger.info("command {}", stackTraceElement[1].getMethodName());
+    }
 
+    
     /**
      * Write a message to the DriverStation. It also logs into the driver
      * station log.
@@ -77,12 +90,11 @@ public class EventLogging {
      *            Message to log.
      */
     public static final void writeToDS(String message) {
-        final HALControlWord controlWord = FRCNetworkCommunicationsLibrary
-                .HALGetControlWord();
-        if (controlWord.getDSAttached()) {
-            FRCNetworkCommunicationsLibrary.HALSetErrorData(message);
+        if (DriverStation.getInstance().isDSAttached()) {
+        	HAL.setErrorData(message);
         }
     }
+
 
     /**
      * Create a String representation of an Exception.
@@ -150,7 +162,7 @@ public class EventLogging {
 
                     // add the handlers we want
                     Handler h = new ConsoleHandler();
-                    h.setFormatter(new FormatterForConsole());
+                    h.setFormatter(new FormatterForFileHandler());
                     h.setLevel(Level.DEBUG.julLevel);
                     rootLogger.addHandler(h);
 
@@ -221,36 +233,6 @@ public class EventLogging {
         //
         private final DateFormat df = new SimpleDateFormat(
                 "yyyy/MM/dd hh:mm:ss.SSS");
-
-        public String format(LogRecord record) {
-            StringBuilder builder = new StringBuilder(1000);
-            // DateFormat objects are not thread-safe....
-            synchronized (df) {
-                builder.append(df.format(new Date(record.getMillis())))
-                        .append(" ");
-            }
-            builder.append("[").append(record.getLoggerName()).append("] ");
-            builder.append(record.getLevel()).append(" - ");
-            builder.append(formatMessage(record));
-            builder.append("\n");
-            return builder.toString();
-        }
-
-        public String getHead(Handler h) {
-            return super.getHead(h);
-        }
-
-        public String getTail(Handler h) {
-            return super.getTail(h);
-        }
-    }
-
-    static class FormatterForConsole extends java.util.logging.Formatter {
-        //
-        // Create a DateFormat to format the logger timestamp.
-        //
-        private final DateFormat df = new SimpleDateFormat(
-                "hh:mm:ss.SSS");
 
         public String format(LogRecord record) {
             StringBuilder builder = new StringBuilder(1000);

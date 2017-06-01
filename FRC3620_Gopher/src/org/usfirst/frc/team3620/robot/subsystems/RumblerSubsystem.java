@@ -13,7 +13,7 @@ package org.usfirst.frc.team3620.robot.subsystems;
 
 import org.usfirst.frc.team3620.robot.Robot;
 
-import edu.wpi.first.wpilibj.Joystick.RumbleType;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**

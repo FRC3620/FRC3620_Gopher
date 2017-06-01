@@ -18,6 +18,7 @@ public class LoggingMaster {
             synchronized (LoggingMaster.class) {
                 if (_timestampString == null) { // Double checked
                     long now = System.currentTimeMillis();
+                    
                     if (now > SOME_TIME_AFTER_1970) {
                         SimpleDateFormat formatName = new SimpleDateFormat(
                                 "yyyyMMdd-HHmmss");
@@ -25,7 +26,6 @@ public class LoggingMaster {
                         String logMessage = String.format(
                                 "timestamp for logs is %s\n", _timestampString);
                         EventLogging.writeToDS(logMessage);
-                        System.out.print(logMessage);
                     }
                 }
             }

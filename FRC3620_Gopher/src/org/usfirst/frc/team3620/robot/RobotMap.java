@@ -1,6 +1,9 @@
 package org.usfirst.frc.team3620.robot;
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Relay.Direction;
 
