@@ -16,7 +16,10 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import com.ctre.CANTalon;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -30,7 +33,7 @@ public class LidSubsystem extends Subsystem {
 	final int N_POSITIONS = vals.length;
 	int currentPosition = 0;
 
-	CANTalon lidCANTalon = RobotMap.subsystem1CANTalon1;
+	WPI_TalonSRX lidCANTalon = RobotMap.subsystem1CANTalon1;
 
 	public LidSubsystem() {
 		super();
@@ -39,7 +42,7 @@ public class LidSubsystem extends Subsystem {
 		// lidCANTalon.setPID(0.4, 0, 0);
 		// lidCANTalon.setPosition(0);
 		// lidCANTalon.setSetpoint(vals[0]);
-		lidCANTalon.changeControlMode(TalonControlMode.PercentVbus);
+		lidCANTalon.set(ControlMode.PercentOutput, 0);
 	}
 
 	// Put methods for controlling this subsystem
@@ -51,14 +54,14 @@ public class LidSubsystem extends Subsystem {
 	}
 
 	public void manualLidUp() {
-		lidCANTalon.set(-0.8);
+		lidCANTalon.set(ControlMode.PercentOutput,-0.8);
 	}
 
 	public void manualLidDown() {
 		if (RobotMap.lidSensor.getVoltage() < 2) {
-			lidCANTalon.set(0.6);
+			lidCANTalon.set(ControlMode.PercentOutput,0.6);
 		} else {
-			lidCANTalon.set(0.0);
+			lidCANTalon.set(ControlMode.PercentOutput,0.0);
 		}
 	}
 
@@ -66,7 +69,8 @@ public class LidSubsystem extends Subsystem {
 		if (currentPosition < N_POSITIONS) {
 			currentPosition = currentPosition + 1;
 			logger.info("new lift setpoint = {}", currentPosition);
-			lidCANTalon.setSetpoint(vals[currentPosition]);
+			// lidCANTalon.setSetpoint(vals[currentPosition]);
+			lidCANTalon.set(ControlMode.Position, vals[currentPosition]);
 		} else
 			logger.info("Cannot move further up");
 	}
@@ -75,7 +79,8 @@ public class LidSubsystem extends Subsystem {
 		if (currentPosition > 0) {
 			currentPosition = currentPosition - 1;
 			logger.info("new lift setpoint = {}", currentPosition);
-			lidCANTalon.setSetpoint(vals[currentPosition]);
+			// lidCANTalon.setSetpoint(vals[currentPosition]);
+			lidCANTalon.set(ControlMode.Position, vals[currentPosition]);
 		} else
 			logger.info("Cannot move further down");
 	}

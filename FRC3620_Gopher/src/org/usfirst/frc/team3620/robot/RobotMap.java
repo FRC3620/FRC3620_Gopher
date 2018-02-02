@@ -2,7 +2,9 @@ package org.usfirst.frc.team3620.robot;
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import com.ctre.CANTalon;
+//import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.Relay.Direction;
@@ -23,7 +25,7 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
-    public static CANTalon subsystem1CANTalon1;
+    public static WPI_TalonSRX subsystem1CANTalon1;
 
     public static SpeedController driveSpeedController0;
     public static SpeedController driveSpeedController1;
@@ -51,7 +53,7 @@ public class RobotMap {
 
     public static void init() {
 
-        subsystem1CANTalon1 = new CANTalon(1);
+        subsystem1CANTalon1 = new WPI_TalonSRX(1);
         LiveWindow.addActuator("Subsystem 1", "CAN Talon 1", subsystem1CANTalon1);
 
         driveSpeedController0 = new Talon(0);
