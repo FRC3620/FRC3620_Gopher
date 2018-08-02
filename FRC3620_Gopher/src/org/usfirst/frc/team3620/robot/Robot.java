@@ -9,8 +9,6 @@ import org.usfirst.frc3620.logger.EventLogging.Level;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -30,7 +28,6 @@ public class Robot extends IterativeRobot {
     public static RumblerSubsystem rumblerSubsystem;
 
     Command autonomousCommand;
-    SendableChooser chooser;
     
     // custom FRC 3620 stuff
     static RobotMode currentRobotMode = RobotMode.INIT, previousRobotMode; 
@@ -55,11 +52,6 @@ public class Robot extends IterativeRobot {
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
         oi = new OI();
-        
-        chooser = new SendableChooser();
-        
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
         
         shooterSubsystem.startup();
     }
@@ -91,18 +83,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         allInit(RobotMode.AUTONOMOUS);
         
-        autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
+        autonomousCommand = null;
     	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
@@ -149,7 +130,7 @@ public class Robot extends IterativeRobot {
 	@Override
     public void testPeriodic() {
     	allStartPeriodic();
-        LiveWindow.run();
+        //LiveWindow.run();
         allEndPeriodic();
     }
     
@@ -159,8 +140,9 @@ public class Robot extends IterativeRobot {
 
     void allEndPeriodic() {
     	SmartDashboard.putNumber("encoder", RobotMap.subsystem1CANTalon1.getSensorCollection().getQuadraturePosition());
-    	SmartDashboard.putNumber("p1", RobotMap.pressureSensor1.getVoltage());
-    	SmartDashboard.putNumber("p2", RobotMap.pressureSensor2.getVoltage());
+    	SmartDashboard.putNumber("b1 pressure", RobotMap.pressureSensor1.getVoltage());
+    	SmartDashboard.putNumber("b2 pressure", RobotMap.pressureSensor2.getVoltage());
+    	SmartDashboard.putNumber("p3", RobotMap.pressureSensor3.getVoltage());
     }
     
     /*
